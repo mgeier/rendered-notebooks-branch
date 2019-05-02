@@ -1,3 +1,6 @@
+Getting Started
+---------------
+
 1. Create a new branch called `dev`
 1. Make sure all notebooks are "clean", i.e. their cell outputs are not stored.
    See the section about "Cleaning" below for how to automate this.
@@ -8,23 +11,24 @@
    automate this.
 1. Create a commit with a commit message like "Execute notebooks", push to server
 
+Making a Change
 ---------------
 
-    git checkout master
+    git checkout dev
 
     # create one or more commits (e.g. by fast-forward merging a feature branch)
 
-    git checkout rendered
+    git checkout master
 
-    git rebase -X ours master
+    git rebase -X ours dev
 
     # manually re-run the changed notebooks (TODO: get list of changed notebooks?)
 
     git commit -a --amend
 
-Special care has to be taken when notebooks are removed:
+Special care has to be taken before rebasing when notebooks are removed:
 
-    git checkout rendered
+    git checkout master
     git rm the-deleted-notebook.ipynb
     git commit --amend
 
