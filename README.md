@@ -36,20 +36,26 @@ Special care has to be taken before rebasing when notebooks are removed:
 Executing All Notebooks
 -----------------------
 
-    python3 -m nbconvert --execute --inplace **/*.ipynb
+    python3 -m nbconvert --execute --inplace *.ipynb **/*.ipynb
 
 To disable the timeout, add `--ExecutePreprocessor.timeout=-1` to the command.
 This should actually be the default, but it's not,
 see https://github.com/jupyter/nbconvert/issues/791.
 
+Please note the two *globbing* patterns used here.
+The second pattern (`**/*.ipynb`) is collecting all the notebooks recursively,
+but it doesn't include the files in the current directory.
+That's what the first pattern (`*.ipynb`) is used for.
+If you don't have notebooks in the main directory, you should omit this pattern.
+
 Cleaning All Notebooks
 ----------------------
 
-    #python3 -m nbconvert --clear-output **/*.ipynb
+    #python3 -m nbconvert --clear-output *.ipynb **/*.ipynb
 
 `--clear-output` doesn't work: https://github.com/jupyter/nbconvert/issues/822
 
-    python3 -m nbconvert --ClearOutputPreprocessor.enabled=True --inplace **/*.ipynb
+    python3 -m nbconvert --ClearOutputPreprocessor.enabled=True --inplace *.ipynb **/*.ipynb
 
 Cleaning a Whole Repository
 ---------------------------
@@ -62,9 +68,9 @@ Create a new `dev` branch:
 
 Clean the whole Git history of the new branch:
 
-    git filter-branch --tree-filter "python3 -m nbconvert --ClearOutputPreprocessor.enabled=True --inplace **/*.ipynb"
+    git filter-branch --tree-filter "python3 -m nbconvert --ClearOutputPreprocessor.enabled=True --inplace *.ipynb **/*.ipynb"
 
 If there are some commits without Jupyter notebook in them, you might want to
 extend the command a bit (to ignore any errors):
 
-    git filter-branch --tree-filter "python3 -m nbconvert --ClearOutputPreprocessor.enabled=True --inplace **/*.ipynb || true"
+    git filter-branch --tree-filter "python3 -m nbconvert --ClearOutputPreprocessor.enabled=True --inplace *.ipynb **/*.ipynb || true"
