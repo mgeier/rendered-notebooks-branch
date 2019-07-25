@@ -7,9 +7,10 @@ Getting Started
 1. Commit the cleaned notebooks to the `dev` branch, push to server
 1. Reset the `master` branch to point to the same commit as `dev`
 1. Switch to `master` branch
-1. Execute all your notebooks.  See the section about "Executing" below for how to
-   automate this.
-1. Create a commit with a commit message like "Execute notebooks", push to server
+1. Execute all your notebooks.
+   See the section about "Executing" below for how to automate this.
+1. Create a commit with a commit message like "Execute notebooks",
+   force-push to server
 
 Making a Change
 ---------------
@@ -18,11 +19,19 @@ Making a Change
 
     # create one or more commits (e.g. by fast-forward merging a feature branch)
 
+    # push "dev" branch to the server
+
     git checkout master
 
     git rebase -X ours dev
 
-    # manually re-run the changed notebooks (TODO: get list of changed notebooks?)
+    # manually re-run the changed notebooks
+
+    # to get list of changed notebooks:
+
+    git diff --name-only dev $(git merge-base dev origin/master)
+
+    # when all changed notebooks have been executed:
 
     git commit -a --amend
 
@@ -31,6 +40,10 @@ Special care has to be taken before rebasing when notebooks are removed:
     git checkout master
     git rm the-deleted-notebook.ipynb
     git commit --amend
+
+In the end, the changes to `master` have to be force-pushed:
+
+    git push --force
 
 
 Executing All Notebooks
