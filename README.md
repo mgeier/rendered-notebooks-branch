@@ -1,23 +1,44 @@
-Getting Started
----------------
+Getting Started from Scratch
+----------------------------
 
-1. Create a new branch called `dev`
-1. Make sure all notebooks are "clean", i.e. their cell outputs are not stored.
-   See the section about "Cleaning" below for how to automate this.
-1. Commit the cleaned notebooks to the `dev` branch, push to server
-1. Reset the `master` branch to point to the same commit as `dev`
-1. Switch to `master` branch
-1. Execute all your notebooks.
-   See the section about "Executing" below for how to automate this.
-1. Create a commit with a commit message like "Execute notebooks",
-   force-push to server
+... assuming that you have no Jupyter notebooks in your repository yet
+or all notebooks are "clean" (i.e. stored without outputs).
+
+1. Make sure there are no un-committed local changes
+1. Create a new branch called `dev` (starting at the `master` branch)
+
+That's it!
+
+Now you can continue with the section "Making a Change".
+
+Getting Started with Pre-executed Notebooks
+-------------------------------------------
+
+1. Make sure there are no un-committed local changes
+1. Create a new branch called `dev` (starting at the `master` branch) and
+   switch to the new branch: `git checkout -b dev master`
+1. Do the steps listed in the section "Cleaning a Whole Repository"
+1. Push the changes from the `dev` branch to the server:
+   `git push origin dev`
+1. Switch back to the `master` branch (`git checkout master`)
+   and make a backup branch:
+   `git branch backup`
+1. Reset the `master` branch to point to the same commit as `dev`:
+   `git reset dev --hard`
+
+1. Get the executed version of all notebooks:
+   `git checkout backup .`
+1. Create a commit with a commit message like "Execute notebooks".
+   If you are satisfied with the result, you can push your changes to the server,
+   but note that you have to use `--force`, because you changed the Git history:
+   `git push --force`
 
 Making a Change
 ---------------
 
     git checkout dev
 
-    # create one or more commits (e.g. by fast-forward merging a feature branch)
+    # create one or more commits with new notebooks or changes to existing ones
 
     # push "dev" branch to the server
 
@@ -25,7 +46,7 @@ Making a Change
 
     git rebase -X ours dev
 
-    # manually re-run the changed notebooks
+    # manually (re-)run the changed (and any new) notebooks
 
     # to get list of changed notebooks:
 
